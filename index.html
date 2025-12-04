@@ -153,12 +153,6 @@
       <button id="nav-feedback" onclick="show('feedback')">💌 Feedback</button>
     </nav>
 
-    <div class="small">
-      <div style="margin-top:12px" class="muted">Theme</div>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button class="chip" onclick="toggleTheme()">Toggle</button>
-        <div style="flex:1"></div>
-      </div>
 
       <div class="small muted" style="margin-top:14px">Made with care — share respectfully.</div>
     </div>
@@ -431,17 +425,7 @@ function show(name){
 function truncate(s,n){ if(!s) return ''; return s.length>n ? s.slice(0,n-1)+'…' : s; }
 function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-/* theme toggle (simple) */
-function toggleTheme(){
-  document.body.classList.toggle('dark');
-  if(document.body.classList.contains('dark')){
-    document.documentElement.style.setProperty('--sand','#f3f6f3');
-    document.documentElement.style.setProperty('--mint','#eaf6ef');
-  } else {
-    document.documentElement.style.setProperty('--sand','#FAF7F2');
-    document.documentElement.style.setProperty('--mint','#EEF8F3');
-  }
-}
+
 
 /* keyboard shortcuts */
 document.addEventListener('keydown', (e)=>{
