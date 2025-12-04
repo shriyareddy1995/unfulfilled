@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>~un~fulfilled — stories & journeys</title>
+
+<!-- Google fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* Palette */
+  :root{
+    --deep: #0F4C3A;    /* anchor */
+    --sage: #DCEFE6;    /* panels */
+    --mint: #EEF8F3;    /* background tint */
+    --sand: #FAF7F2;    /* warm neutral */
+    --accent: #2E8B57;  /* supportive accent */
+    --muted: #6B7A73;
+    --card-shadow: 0 6px 22px rgba(16,40,30,0.06);
+    --radius: 16px;
+    --glass: rgba(255,255,255,0.72);
+  }
+
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+  body{
+    background: linear-gradient(180deg,var(--mint),#fbfcfb);
+    color: #153d34;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* Layout */
+  .wrap{display:grid;grid-template-columns:280px 1fr;min-height:100vh;gap:28px;padding:28px;}
+  @media(max-width:900px){ .wrap{grid-template-columns:1fr; padding:18px;} .sidebar{position:sticky;top:12px;margin-bottom:12px;} }
+
+  /* Sidebar */
+  .sidebar{
+    background: linear-gradient(180deg,var(--glass), rgba(255,255,255,0.94));
+    border-radius:18px;padding:22px;border:1px solid rgba(15,76,58,0.05);
+    box-shadow:var(--card-shadow);height:fit-content;
+  }
+  .brand{
+    display:flex;gap:12px;align-items:center;margin-bottom:10px;
+  }
+  .logo{
+    width:54px;height:54px;border-radius:12px;background:linear-gradient(145deg,var(--deep),var(--accent));
+    display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-family:Cormorant Garamond,serif;font-size:20px;
+  }
+  .brand h1{margin:0;font-family:Cormorant Garamond,serif;font-size:20px;color:var(--deep);line-height:1;}
+  .brand p{margin:0;font-size:12px;color:var(--muted);}
+
+  .nav{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .nav button{
+    border:none;background:transparent;padding:12px 14px;border-radius:12px;text-align:left;cursor:pointer;
+    display:flex;gap:12px;align-items:center;font-weight:600;color:var(--deep);
+  }
+  .nav button:hover{background:rgba(15,76,58,0.04);transform:translateY(-2px);box-shadow:0 6px 18px rgba(16,40,30,0.03);}
+
+  .small{font-size:12px;color:var(--muted);margin-top:14px;}
+
+  /* Main content */
+  .main{padding:6px 10px 40px;}
+  .hero{
+    display:flex;flex-direction:column;gap:10px;padding:28px;border-radius:18px;background:linear-gradient(90deg,var(--sand),#fcfdfc);box-shadow:var(--card-shadow);
+  }
+  .kicker{font-family:Cormorant Garamond,serif;color:var(--deep);font-size:44px;margin:0;}
+  .sub{color:var(--muted);max-width:780px;line-height:1.6;font-size:16px;margin:0 0 6px 0;}
+
+  /* search */
+  .controls{display:flex;gap:14px;align-items:center;margin-top:16px;flex-wrap:wrap;}
+  .search{
+    flex:1;display:flex;background:white;border-radius:40px;padding:8px 12px;align-items:center;gap:8px;border:1px solid rgba(10,40,30,0.06);
+    box-shadow:0 6px 18px rgba(16,40,30,0.03);
+  }
+  .search input{border:0;outline:0;font-size:15px;padding:10px;background:transparent;width:100%}
+  .filterchips{display:flex;gap:8px;align-items:center;}
+  .chip{background:transparent;border:1px solid rgba(15,76,58,0.08);padding:8px 12px;border-radius:999px;font-weight:600;color:var(--deep);cursor:pointer}
+  .chip.active{background:linear-gradient(90deg,var(--sage),#f8fff8);box-shadow:0 8px 20px rgba(15,76,58,0.04)}
+
+  /* grid of cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:20px;}
+  .tile{
+    background:linear-gradient(180deg,white,var(--sand));border-radius:16px;padding:18px;min-height:120px;
+    display:flex;flex-direction:column;gap:10px;justify-content:center;box-shadow:0 6px 26px rgba(0,0,0,0.04);transition:all .28s;
+  }
+  .tile:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(12,60,44,0.08)}
+  .tile svg{width:52px;height:52px;opacity:0.95}
+  .tile h4{margin:0;font-size:16px;color:var(--deep);font-weight:700;font-family:Cormorant Garamond,serif}
+  .tile p{margin:0;color:var(--muted);font-size:13px}
+
+  /* stories list */
+  .stories{margin-top:26px;display:flex;flex-direction:column;gap:14px;}
+  .story{
+    background:white;border-radius:12px;padding:16px;border-left:6px solid var(--sage);box-shadow:0 10px 30px rgba(8,40,30,0.03);
+  }
+  .story h5{margin:0 0 6px 0;font-size:15px;color:var(--deep)}
+  .story p{margin:0;color:#4f6a62;line-height:1.55}
+
+  /* rotating feature strip */
+  .feature{
+    margin-top:20px;padding:12px;border-radius:12px;background:linear-gradient(90deg,var(--sage),#f8fffb);display:flex;gap:12px;align-items:center;
+  }
+  .feature p{margin:0;color:var(--deep);font-weight:600}
+
+  /* add story modal */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(6,20,16,0.28);display:none;align-items:center;justify-content:center;z-index:60}
+  .modal{width:min(680px,96%);background:white;border-radius:14px;padding:18px;border:1px solid rgba(10,40,30,0.04);box-shadow:0 20px 50px rgba(12,60,44,0.12)}
+  .modal h3{margin:0 0 10px 0;font-family:Cormorant Garamond,serif;color:var(--deep)}
+  .modal label{font-size:13px;color:var(--muted);display:block;margin-top:8px}
+  .modal input,.modal textarea,.modal select{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(10,40,30,0.06);margin-top:6px;font-size:14px}
+  .modal textarea{min-height:140px;resize:vertical}
+  .btn{background:var(--deep);color:white;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+  .btn.secondary{background:transparent;border:1px solid rgba(15,76,58,0.08);color:var(--deep)}
+
+  footer{margin-top:34px;color:var(--muted);font-size:13px;padding-bottom:40px}
+
+  /* micro */
+  .pill{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:600;background:rgba(47,123,85,0.08);color:var(--deep)}
+  .muted{color:var(--muted);font-size:13px}
+  .row{display:flex;gap:12px;align-items:center}
+
+  /* small screens adjustments */
+  @media(max-width:540px){
+    .kicker{font-size:28px}
+    .wrap{padding:12px}
+  }
+
+  /* subtle animations */
+  .fade-in{animation:fadeUp .6s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar fade-in" aria-label="Main navigation">
+    <div class="brand">
+      <div class="logo">~u~</div>
+      <div>
+        <h1>~un~fulfilled</h1>
+        <p class="muted">a calm space for public journeys</p>
+      </div>
+    </div>
+
+    <nav class="nav" role="navigation" aria-label="Sections">
+      <button id="nav-home" class="active" onclick="show('home')">🏠 Home</button>
+      <button id="nav-add" onclick="openAdd()">✍ Add Story</button>
+      <button id="nav-founder" onclick="show('founder')">🌱 Founder</button>
+      <button id="nav-feedback" onclick="show('feedback')">💌 Feedback</button>
+    </nav>
+
+    <div class="small">
+      <div style="margin-top:12px" class="muted">Theme</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="chip" onclick="toggleTheme()">Toggle</button>
+        <div style="flex:1"></div>
+      </div>
+
+      <div class="small muted" style="margin-top:14px">Made with care — share respectfully.</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HOME PAGE -->
+    <section id="home" class="page">
+      <div class="hero">
+        <h2 class="kicker">~un~fulfilled</h2>
+        <p class="sub">A calm, safe space to share what you once dreamt of becoming, who you became, and the quiet transformations in between.</p>
+
+        <div class="controls">
+          <div class="search" role="search" aria-label="Search stories">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.6"><path d="M21 21l-4.35-4.35" stroke="#2E8B57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="5.5" stroke="#2E8B57" stroke-width="1.6"/></svg>
+            <input id="q" placeholder="Search journeys, emotions, turning points..." oninput="render()" />
+          </div>
+
+          <div class="filterchips" aria-hidden="false">
+            <button class="chip active" data-filter="all" onclick="setFilter('all', this)">All</button>
+            <button class="chip" data-filter="sports" onclick="setFilter('sports', this)">Sports</button>
+            <button class="chip" data-filter="career" onclick="setFilter('career', this)">Career</button>
+            <button class="chip" data-filter="personal" onclick="setFilter('personal', this)">Identity</button>
+            <button class="chip" data-filter="research" onclick="setFilter('research', this)">Research</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- visual tiles -->
+      <div class="grid" id="genres" aria-hidden="false">
+        <div class="tile fade-in" data-genre="sports">
+          <svg viewBox="0 0 64 64" aria-hidden><circle cx="32" cy="32" r="28" fill="#F7FFFA"/><path d="M22 30l20-10" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <h4>Sports Stories</h4>
+          <p>Competition, training, injury, comeback — movement in all forms.</p>
+        </div>
+
+        <div class="tile fade-in" data-genre="career">
+          <svg viewBox="0 0 64 64" aria-hidden><rect x="8" y="10" width="48" height="44" rx="10" fill="#FBFFFD"/><path d="M18 34h28" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <h4>Career Pivots</h4>
+          <p>Resignations, rewrites and new directions in professional life.</p>
+        </div>
+
+        <div class="tile fade-in" data-genre="personal">
+          <svg viewBox="0 0 64 64" aria-hidden><circle cx="32" cy="26" r="8" fill="#FFF"/><path d="M16 48c4-8 28-8 32 0" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <h4>Identity Journeys</h4>
+          <p>Self-discovery, belonging, and the stories that change how we see ourselves.</p>
+        </div>
+
+        <div class="tile fade-in" data-genre="research">
+          <svg viewBox="0 0 64 64" aria-hidden><rect x="12" y="12" width="40" height="40" rx="7" fill="#fff"/><path d="M20 28h24M20 36h18" stroke="#2E8B57" stroke-width="2"/></svg>
+          <h4>Research & Learning</h4>
+          <p>Academic detours, experiments, curiosity and useful failures.</p>
+        </div>
+      </div>
+
+      <!-- rotating examples -->
+      <div class="feature" aria-live="polite">
+        <div class="pill" id="feature-genre">Curated</div>
+        <p id="feature-text">“I trained for an entire season with one goal, then the goal shifted — and I needed to make peace with that.”</p>
+      </div>
+
+      <!-- stories -->
+      <div class="stories" id="story-list" aria-live="polite"></div>
+
+      <footer>
+        <div class="muted">Built with ❤️ • Keep sharing with care</div>
+      </footer>
+    </section>
+
+    <!-- ADD STORY / modal -->
+    <div class="modal-backdrop" id="modal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="add-title">
+        <h3 id="add-title">Share a story</h3>
+        <label>Title</label>
+        <input id="stitle" placeholder="Title (short & honest)" />
+        <label>Your name (optional)</label>
+        <input id="sauthor" placeholder="Name or leave blank for anonymous" />
+        <label>Genre</label>
+        <select id="sgenre">
+          <option value="personal">Identity</option>
+          <option value="career">Career</option>
+          <option value="sports">Sports</option>
+          <option value="research">Research</option>
+        </select>
+        <label>Story (600-900 words recommended)</label>
+        <textarea id="sbody" placeholder="Tell us about a turning point, a little loss, a decision or a quiet victory..."></textarea>
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+          <button class="btn secondary" onclick="closeAdd()">Cancel</button>
+          <button class="btn" onclick="saveStory()">Publish</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOUNDER PAGE -->
+    <section id="founder" class="page" style="display:none">
+      <div class="hero">
+        <h2 class="kicker">Founder</h2>
+        <p class="sub">Hi — I'm Shriya. This project started as a place to collect memory capsules: the gap between who we aspire to be and the person we become. It became a place to notice the small transformations. I'm building it to be gentle, evidence-based, and safe.</p>
+      </div>
+
+      <div style="margin-top:18px" class="row">
+        <div style="flex:1">
+          <div class="story">
+            <h5>Why this matters</h5>
+            <p>We forget the quiet steps. By collecting short, first-person stories, we create a habit for reflection, mentorship and small civic courage.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FEEDBACK PAGE -->
+    <section id="feedback" class="page" style="display:none">
+      <div class="hero">
+        <h2 class="kicker">Feedback</h2>
+        <p class="sub">Tell me what felt true, what felt off, or what features you'd like. This space is for improvement and compassion.</p>
+      </div>
+
+      <div style="margin-top:18px" class="modal" aria-hidden="false">
+        <label>Your name (optional)</label>
+        <input id="f_name" placeholder="Name" />
+        <label>Feedback</label>
+        <textarea id="f_text" placeholder="Short feedback..."></textarea>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+          <button class="btn secondary" onclick="clearFeedback()">Clear</button>
+          <button class="btn" onclick="sendFeedback()">Send</button>
+        </div>
+        <div id="fb-status" style="margin-top:10px;font-size:13px;color:var(--muted)"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* -------------------------
+   Tiny client-side app logic
+   - stores stories in localStorage
+   - search + filter + rotating feature
+   ------------------------- */
+
+const STORIES_KEY = 'unfulfilled_stories_v1';
+let stories = [
+  {id:1,title:"When the racket went quiet",author:"A.",genre:"sports",body:"I trained six days a week. Then the injury... learning to grieve a path and find a new rhythm."},
+  {id:2,title:"MBA or bookkeeping",author:"R.",genre:"career",body:"My career pivot started with a spreadsheet and ended in a new curiosity. I left a safe job to ask dumb questions."},
+  {id:3,title:"Finding myself in margins",author:"Anonymous",genre:"personal",body:"Identity didn't arrive in one epiphany. It was a thousand small acceptances. Each summer taught me another layer."},
+  {id:4,title:"The lab that trusted me",author:"S.",genre:"research",body:"My early research failed. Repeatedly. But one small correction changed the result; the joy of a steady curiosity."}
+];
+
+function load(){
+  const saved = localStorage.getItem(STORIES_KEY);
+  if(saved){
+    try{ stories = JSON.parse(saved).concat(stories); }catch(e){ console.warn(e) }
+  } else {
+    localStorage.setItem(STORIES_KEY, JSON.stringify([]));
+  }
+}
+load();
+
+/* render */
+let activeFilter = 'all';
+function setFilter(f, el){
+  activeFilter = f;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  render();
+}
+
+function render(){
+  const q = (document.getElementById('q').value||'').toLowerCase().trim();
+  const list = document.getElementById('story-list');
+  list.innerHTML = '';
+
+  // merge stored and built-in
+  const stored = JSON.parse(localStorage.getItem(STORIES_KEY) || '[]');
+  const merged = stored.concat(stories);
+
+  const filtered = merged.filter(s=>{
+    if(activeFilter!=='all' && s.genre !== activeFilter) return false;
+    if(!q) return true;
+    return (s.title + ' ' + (s.body||'') + ' ' + (s.author||'')).toLowerCase().includes(q);
+  });
+
+  if(filtered.length===0){
+    list.innerHTML = '<div class="muted">No stories match that search — be the first to share.</div>';
+    return;
+  }
+
+  filtered.slice(0,50).forEach(s=>{
+    const el = document.createElement('div');
+    el.className = 'story fade-in';
+    el.innerHTML = `<h5>${escapeHtml(s.title)} <span style="font-size:12px;color:var(--muted);font-weight:600">· ${escapeHtml(s.author||'Anonymous')}</span></h5>
+      <p>${escapeHtml(truncate(s.body, 360))}</p>`;
+    list.appendChild(el);
+  });
+}
+
+/* rotating feature snippet */
+const featureText = document.getElementById('feature-text');
+let featIdx = 0;
+function rotateFeature(){
+  const stored = JSON.parse(localStorage.getItem(STORIES_KEY) || '[]');
+  const pool = stored.concat(stories);
+  if(pool.length===0) return;
+  featIdx = (featIdx + 1) % pool.length;
+  const s = pool[featIdx];
+  document.getElementById('feature-genre').innerText = s.genre.toUpperCase();
+  featureText.innerText = `"${truncate(s.body,120)}" — ${s.author || 'Anonymous'}`;
+}
+setInterval(rotateFeature, 5000);
+rotateFeature();
+
+/* modal logic */
+const modal = document.getElementById('modal');
+function openAdd(){
+  show('home');
+  modal.style.display = 'flex';
+  document.getElementById('stitle').value = '';
+  document.getElementById('sbody').value = '';
+  document.getElementById('sauthor').value = '';
+}
+function closeAdd(){ modal.style.display='none'; }
+
+/* save story to localstorage */
+function saveStory(){
+  const title = document.getElementById('stitle').value.trim();
+  const body = document.getElementById('sbody').value.trim();
+  const author = document.getElementById('sauthor').value.trim() || 'Anonymous';
+  const genre = document.getElementById('sgenre').value;
+
+  if(!title || !body){ alert('Please add a title and your story.'); return; }
+  const id = Date.now();
+  const stored = JSON.parse(localStorage.getItem(STORIES_KEY) || '[]');
+  stored.unshift({id,title,author,genre,body});
+  localStorage.setItem(STORIES_KEY, JSON.stringify(stored));
+  closeAdd();
+  render();
+  rotateFeature();
+}
+
+/* feedback */
+function sendFeedback(){
+  const name = document.getElementById('f_name').value.trim();
+  const text = document.getElementById('f_text').value.trim();
+  if(!text){ document.getElementById('fb-status').innerText = 'Please write feedback.'; return; }
+  // store feedback locally for now
+  const key = 'unfulfilled_feedback_v1';
+  const arr = JSON.parse(localStorage.getItem(key) || '[]');
+  arr.unshift({name,text,ts:Date.now()});
+  localStorage.setItem(key, JSON.stringify(arr));
+  document.getElementById('fb-status').innerText = 'Thanks! Your feedback has been saved.';
+  document.getElementById('f_name').value='';document.getElementById('f_text').value='';
+}
+function clearFeedback(){ document.getElementById('f_name').value=''; document.getElementById('f_text').value=''; }
+
+/* simple navigation */
+function show(name){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById(name).style.display='block';
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  const map = {home:'nav-home',add:'nav-add',founder:'nav-founder',feedback:'nav-feedback'};
+  if(map[name]) document.getElementById(map[name]).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* small utilities */
+function truncate(s,n){ if(!s) return ''; return s.length>n ? s.slice(0,n-1)+'…' : s; }
+function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* theme toggle (simple) */
+function toggleTheme(){
+  document.body.classList.toggle('dark');
+  if(document.body.classList.contains('dark')){
+    document.documentElement.style.setProperty('--sand','#f3f6f3');
+    document.documentElement.style.setProperty('--mint','#eaf6ef');
+  } else {
+    document.documentElement.style.setProperty('--sand','#FAF7F2');
+    document.documentElement.style.setProperty('--mint','#EEF8F3');
+  }
+}
+
+/* keyboard shortcuts */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'k' && (e.ctrlKey||e.metaKey)){ e.preventDefault(); document.getElementById('q').focus(); }
+  if(e.key === 'n' && (e.ctrlKey||e.metaKey)){ openAdd(); }
+});
+
+/* initial render */
+render();
+</script>
+
+</body>
+</html>
