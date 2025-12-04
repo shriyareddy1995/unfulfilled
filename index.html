@@ -11,18 +11,15 @@
 <style>
   /* Palette */
   :root{
-    --deep: #55665b;    /* updated dark forest green (user choice) */
+    --deep: #0F4C3A;    /* anchor */
     --sage: #DCEFE6;    /* panels */
     --mint: #EEF8F3;    /* background tint */
     --sand: #FAF7F2;    /* warm neutral */
-    --accent: #2E8B57;  /* supportive accent (kept for subtle accents) */
+    --accent: #2E8B57;  /* supportive accent */
     --muted: #6B7A73;
     --card-shadow: 0 6px 22px rgba(16,40,30,0.06);
     --radius: 16px;
     --glass: rgba(255,255,255,0.72);
-    --icon-stroke: var(--deep);
-    --icon-width: 56px;
-    --icon-stroke-width: 2.8;
   }
 
   html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
@@ -60,7 +57,7 @@
   }
   .nav button:hover{background:rgba(15,76,58,0.04);transform:translateY(-2px);box-shadow:0 6px 18px rgba(16,40,30,0.03);}
 
-  .small{font-size:12px;color:var(--muted);}
+  .small{font-size:12px;color:var(--muted);margin-top:14px;}
 
   /* Main content */
   .main{padding:6px 10px 40px;}
@@ -78,7 +75,7 @@
   }
   .search input{border:0;outline:0;font-size:15px;padding:10px;background:transparent;width:100%}
   .filterchips{display:flex;gap:8px;align-items:center;}
-  .chip{background:transparent;border:1px solid rgba(85,102,91,0.12);padding:8px 12px;border-radius:999px;font-weight:600;color:var(--deep);cursor:pointer}
+  .chip{background:transparent;border:1px solid rgba(15,76,58,0.08);padding:8px 12px;border-radius:999px;font-weight:600;color:var(--deep);cursor:pointer}
   .chip.active{background:linear-gradient(90deg,var(--sage),#f8fff8);box-shadow:0 8px 20px rgba(15,76,58,0.04)}
 
   /* grid of cards */
@@ -88,7 +85,7 @@
     display:flex;flex-direction:column;gap:10px;justify-content:center;box-shadow:0 6px 26px rgba(0,0,0,0.04);transition:all .28s;
   }
   .tile:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(12,60,44,0.08)}
-  .tile svg{width:var(--icon-width);height:var(--icon-width);opacity:0.98;flex:0 0 auto}
+  .tile svg{width:52px;height:52px;opacity:0.95}
   .tile h4{margin:0;font-size:16px;color:var(--deep);font-weight:700;font-family:Cormorant Garamond,serif}
   .tile p{margin:0;color:var(--muted);font-size:13px}
 
@@ -119,7 +116,7 @@
   footer{margin-top:34px;color:var(--muted);font-size:13px;padding-bottom:40px}
 
   /* micro */
-  .pill{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:600;background:rgba(85,102,91,0.08);color:var(--deep)}
+  .pill{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:600;background:rgba(47,123,85,0.08);color:var(--deep)}
   .muted{color:var(--muted);font-size:13px}
   .row{display:flex;gap:12px;align-items:center}
 
@@ -157,7 +154,12 @@
     </nav>
 
     <div class="small">
-      <!-- Theme toggle removed per request -->
+      <div style="margin-top:12px" class="muted">Theme</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="chip" onclick="toggleTheme()">Toggle</button>
+        <div style="flex:1"></div>
+      </div>
+
       <div class="small muted" style="margin-top:14px">Made with care — share respectfully.</div>
     </div>
   </aside>
@@ -173,7 +175,7 @@
 
         <div class="controls">
           <div class="search" role="search" aria-label="Search stories">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.6"><path d="M21 21l-4.35-4.35" stroke="var(--deep)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="5.5" stroke="var(--deep)" stroke-width="1.6"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.6"><path d="M21 21l-4.35-4.35" stroke="#2E8B57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="5.5" stroke="#2E8B57" stroke-width="1.6"/></svg>
             <input id="q" placeholder="Search journeys, emotions, turning points..." oninput="render()" />
           </div>
 
@@ -189,66 +191,29 @@
 
       <!-- visual tiles -->
       <div class="grid" id="genres" aria-hidden="false">
-
-        <!-- Sports: diagonal running shoe -->
-        <div class="tile fade-in" data-genre="sports" aria-label="Sports stories">
-          <svg viewBox="0 0 64 64" role="img" aria-hidden>
-            <!-- shoe body -->
-            <path d="M6 38c6-6 24-8 36-6 6 1 12 6 16 8 0 0-2 6-8 8-8 3-32 8-44-8z" fill="#ffffff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- laces -->
-            <path d="M22 30l10-3M24 34l8-2M28 38l8-2" fill="none" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- sole detail -->
-            <path d="M6 42c8 4 32 4 44 0" fill="none" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
-          </svg>
+        <div class="tile fade-in" data-genre="sports">
+          <svg viewBox="0 0 64 64" aria-hidden><circle cx="32" cy="32" r="28" fill="#F7FFFA"/><path d="M22 30l20-10" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
           <h4>Sports Stories</h4>
           <p>Competition, training, injury, comeback — movement in all forms.</p>
         </div>
 
-        <!-- Career: curvy road -->
-        <div class="tile fade-in" data-genre="career" aria-label="Career pivots">
-          <svg viewBox="0 0 64 64" role="img" aria-hidden>
-            <rect x="8" y="10" width="48" height="44" rx="10" fill="#fff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" />
-            <path d="M16 38c6-14 20-18 32-16 0 0-6 8-8 14-2 6-6 10-12 8-4-1-10-6-12-6z" fill="none" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M24 34c6-8 14-10 20-8" fill="none" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round"/>
-            <!-- central road -->
-            <path d="M28 40c4-6 10-10 16-8" fill="none" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" opacity="0.95"/>
-          </svg>
+        <div class="tile fade-in" data-genre="career">
+          <svg viewBox="0 0 64 64" aria-hidden><rect x="8" y="10" width="48" height="44" rx="10" fill="#FBFFFD"/><path d="M18 34h28" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
           <h4>Career Pivots</h4>
           <p>Resignations, rewrites and new directions in professional life.</p>
         </div>
 
-        <!-- Identity: person with flower head -->
-        <div class="tile fade-in" data-genre="personal" aria-label="Identity journeys">
-          <svg viewBox="0 0 64 64" role="img" aria-hidden>
-            <!-- body -->
-            <path d="M18 26c0-4 3-7 7-7s7 3 7 7v14c0 2.5-2 5-5 5h-6c-3 0-5-2.5-5-5V26z" fill="#fff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- arms -->
-            <path d="M10 36c6-2 18-2 30 0" fill="none" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
-            <!-- flower head: five petals -->
-            <g transform="translate(32,14)">
-              <circle cx="0" cy="-10" r="4.6" fill="#fff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)"/>
-              <circle cx="-7" cy="-3" r="4.6" fill="#fff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)"/>
-              <circle cx="7" cy="-3" r="4.6" fill="#fff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)"/>
-              <circle cx="-4" cy="6" r="4.6" fill="#fff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)"/>
-              <circle cx="4" cy="6" r="4.6" fill="#fff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)"/>
-              <circle cx="0" cy="-1" r="3.2" fill="var(--icon-stroke)" stroke="var(--icon-stroke)" stroke-width="1"/>
-            </g>
-          </svg>
+        <div class="tile fade-in" data-genre="personal">
+          <svg viewBox="0 0 64 64" aria-hidden><circle cx="32" cy="26" r="8" fill="#FFF"/><path d="M16 48c4-8 28-8 32 0" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
           <h4>Identity Journeys</h4>
           <p>Self-discovery, belonging, and the stories that change how we see ourselves.</p>
         </div>
 
-        <!-- Research: open book -->
-        <div class="tile fade-in" data-genre="research" aria-label="Research & learning">
-          <svg viewBox="0 0 64 64" role="img" aria-hidden>
-            <path d="M10 12h20l6 6 6-6h20v36H10z" fill="#fff" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18 26h28M18 34h22" fill="none" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round"/>
-            <path d="M36 20l8-6" fill="none" stroke="var(--icon-stroke)" stroke-width="var(--icon-stroke-width)" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="tile fade-in" data-genre="research">
+          <svg viewBox="0 0 64 64" aria-hidden><rect x="12" y="12" width="40" height="40" rx="7" fill="#fff"/><path d="M20 28h24M20 36h18" stroke="#2E8B57" stroke-width="2"/></svg>
           <h4>Research & Learning</h4>
           <p>Academic detours, experiments, curiosity and useful failures.</p>
         </div>
-
       </div>
 
       <!-- rotating examples -->
@@ -465,6 +430,18 @@ function show(name){
 /* small utilities */
 function truncate(s,n){ if(!s) return ''; return s.length>n ? s.slice(0,n-1)+'…' : s; }
 function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* theme toggle (simple) */
+function toggleTheme(){
+  document.body.classList.toggle('dark');
+  if(document.body.classList.contains('dark')){
+    document.documentElement.style.setProperty('--sand','#f3f6f3');
+    document.documentElement.style.setProperty('--mint','#eaf6ef');
+  } else {
+    document.documentElement.style.setProperty('--sand','#FAF7F2');
+    document.documentElement.style.setProperty('--mint','#EEF8F3');
+  }
+}
 
 /* keyboard shortcuts */
 document.addEventListener('keydown', (e)=>{
