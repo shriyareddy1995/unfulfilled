@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>~un~fulfilled</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Inter", Arial, sans-serif;
+        background: #f6f9f8;
+        color: #2d2d2d;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 220px;
+        height: 100vh;
+        background: white;
+        border-right: 1px solid #e6e6e6;
+        padding: 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #0f5f58;
+        font-weight: 700;
+        font-family: "Georgia", serif;
+    }
+
+    .sidebar button {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
+        padding: 10px;
+        border: none;
+        background: #f3f5f5;
+        border-radius: 6px;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .sidebar button:hover {
+        background: #e0f2ef;
+    }
+
+    /* Main area */
+    .main {
+        margin-left: 240px;
+        padding: 40px;
+        max-width: 800px;
+    }
+
+    /* Homepage */
+    .title {
+        font-size: 48px;
+        font-family: "Georgia", serif;
+        color: #0f5f58;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        color: #555;
+        max-width: 600px;
+        line-height: 1.5;
+    }
+
+    .search-box {
+        margin-top: 30px;
+        padding: 15px;
+        width: 100%;
+        border-radius: 40px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    .story-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 20px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    .form-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 20px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    textarea { height: 120px; }
+
+    .submit-btn {
+        margin-top: 15px;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        background: #0f5f58;
+        color: white;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover { background: #0c4d47; }
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>Menu</h2>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('addStory')">Add Story</button>
+    <button onclick="showPage('founder')">Founder</button>
+    <button onclick="showPage('feedback')">Feedback</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page">
+        <div class="title">~un~fulfilled</div>
+        <p class="subtitle">
+            A calm, safe space to share your journey — what you once dreamed of becoming, 
+            who you ended up becoming, and the quiet transformations in between.
+        </p>
+
+        <input class="search-box" placeholder="Search stories…" />
+
+        <h3 style="margin-top:30px;">Genres</h3>
+        <div class="story-card">Sports Stories</div>
+        <div class="story-card">Career Pivots</div>
+        <div class="story-card">Identity Journeys</div>
+        <div class="story-card">Research & Learning</div>
+    </div>
+
+    <!-- ADD STORY PAGE -->
+    <div id="addStory" class="page" style="display:none;">
+        <h2>Add Your Story</h2>
+        <div class="form-box">
+            <input placeholder="Title of your story" />
+            <input placeholder="Your name (or leave blank for anonymous)" />
+            <textarea placeholder="Your story…"></textarea>
+            <button class="submit-btn">Submit Story</button>
+        </div>
+    </div>
+
+    <!-- FOUNDER PAGE -->
+    <div id="founder" class="page" style="display:none;">
+        <h2>Founder</h2>
+        <div class="story-card">
+            <strong>Shriya</strong><br><br>
+            Creator of ~un~fulfilled — a space built from lived experience, reinvention, 
+            and the belief that every journey deserves a safe place to be told.
+        </div>
+    </div>
+
+    <!-- FEEDBACK PAGE -->
+    <div id="feedback" class="page" style="display:none;">
+        <h2>Feedback</h2>
+        <div class="form-box">
+            <input placeholder="Your name (optional)" />
+            <textarea placeholder="Your feedback…"></textarea>
+            <button class="submit-btn">Send Feedback</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function showPage(pageId) {
+    const pages = document.querySelectorAll(".page");
+    pages.forEach(p => p.style.display = "none");
+    document.getElementById(pageId).style.display = "block";
+}
+</script>
+
+</body>
+</html>
