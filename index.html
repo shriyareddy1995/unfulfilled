@@ -20,6 +20,8 @@
     --card-shadow: 0 6px 22px rgba(16,40,30,0.06);
     --radius: 16px;
     --glass: rgba(255,255,255,0.72);
+    --desc-dark: #55665b; /* the new slightly darker description color you chose */
+    --icon-stroke: #2f5b4d; /* icon stroke color tuned for contrast */
   }
 
   html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
@@ -85,9 +87,16 @@
     display:flex;flex-direction:column;gap:10px;justify-content:center;box-shadow:0 6px 26px rgba(0,0,0,0.04);transition:all .28s;
   }
   .tile:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(12,60,44,0.08)}
-  .tile svg{width:52px;height:52px;opacity:0.95}
+  /* Icon container: even sizing + gentle background */
+  .tile .icon-wrap{
+    width:56px;height:56px;border-radius:999px;display:inline-grid;place-items:center;
+    background:linear-gradient(180deg,rgba(234,246,239,0.9),rgba(250,247,242,0.9));
+    box-shadow:0 6px 18px rgba(84,119,105,0.06);flex:0 0 56px;overflow:visible;
+  }
+  .tile .icon-wrap svg{width:28px;height:28px;display:block;fill:none;stroke:var(--icon-stroke);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
   .tile h4{margin:0;font-size:16px;color:var(--deep);font-weight:700;font-family:Cormorant Garamond,serif}
-  .tile p{margin:0;color:var(--muted);font-size:13px}
+  /* DARKENED description text */
+  .tile p{margin:0;color:var(--desc-dark);font-size:13px}
 
   /* stories list */
   .stories{margin-top:26px;display:flex;flex-direction:column;gap:14px;}
@@ -154,11 +163,7 @@
     </nav>
 
     <div class="small">
-      <div style="margin-top:12px" class="muted">Theme</div>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button class="chip" onclick="toggleTheme()">Toggle</button>
-        <div style="flex:1"></div>
-      </div>
+      <!-- Theme toggle removed as requested -->
 
       <div class="small muted" style="margin-top:14px">Made with care — share respectfully.</div>
     </div>
@@ -189,28 +194,62 @@
         </div>
       </div>
 
-      <!-- visual tiles -->
+      <!-- visual tiles with new SVG icons -->
       <div class="grid" id="genres" aria-hidden="false">
-        <div class="tile fade-in" data-genre="sports">
-          <svg viewBox="0 0 64 64" aria-hidden><circle cx="32" cy="32" r="28" fill="#F7FFFA"/><path d="M22 30l20-10" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <!-- Sports Stories: running shoe, diagonal -->
+        <div class="tile fade-in" data-genre="sports" role="group" aria-label="Sports Stories">
+          <div class="icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- running shoe simplified -->
+              <path d="M8 38c6-5 18-8 28-8 6 0 12 2 18 4 0 0 4 2 6 1" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 44c8-1 18-1 30 4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 46h8" stroke-linecap="round"/>
+              <path d="M10 50h34" stroke-linecap="round"/>
+            </svg>
+          </div>
           <h4>Sports Stories</h4>
           <p>Competition, training, injury, comeback — movement in all forms.</p>
         </div>
 
-        <div class="tile fade-in" data-genre="career">
-          <svg viewBox="0 0 64 64" aria-hidden><rect x="8" y="10" width="48" height="44" rx="10" fill="#FBFFFD"/><path d="M18 34h28" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <!-- Career Pivots: curvy road -->
+        <div class="tile fade-in" data-genre="career" role="group" aria-label="Career Pivots">
+          <div class="icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- curvy road -->
+              <path d="M8 18c6 0 6 8 12 8s6-8 12-8 6 8 12 8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 34h40" stroke-linecap="round"/>
+            </svg>
+          </div>
           <h4>Career Pivots</h4>
           <p>Resignations, rewrites and new directions in professional life.</p>
         </div>
 
-        <div class="tile fade-in" data-genre="personal">
-          <svg viewBox="0 0 64 64" aria-hidden><circle cx="32" cy="26" r="8" fill="#FFF"/><path d="M16 48c4-8 28-8 32 0" stroke="#2E8B57" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <!-- Identity Journeys: potted flower -->
+        <div class="tile fade-in" data-genre="personal" role="group" aria-label="Identity Journeys">
+          <div class="icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- flower in pot -->
+              <circle cx="32" cy="22" r="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M28 28c-3 3-3 6 0 9" stroke-linecap="round"/>
+              <path d="M36 28c3 3 3 6 0 9" stroke-linecap="round"/>
+              <path d="M20 46h24v6H20z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <h4>Identity Journeys</h4>
           <p>Self-discovery, belonging, and the stories that change how we see ourselves.</p>
         </div>
 
-        <div class="tile fade-in" data-genre="research">
-          <svg viewBox="0 0 64 64" aria-hidden><rect x="12" y="12" width="40" height="40" rx="7" fill="#fff"/><path d="M20 28h24M20 36h18" stroke="#2E8B57" stroke-width="2"/></svg>
+        <!-- Research & Learning: open book -->
+        <div class="tile fade-in" data-genre="research" role="group" aria-label="Research & Learning">
+          <div class="icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- open book -->
+              <path d="M10 12c6-2 12-2 22 4 10-6 16-6 22-4v36c-6-2-12-2-22 4-10-6-16-6-22-4V12z" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M32 12v40" stroke-linecap="round"/>
+              <path d="M18 28h28" stroke-linecap="round"/>
+              <path d="M18 36h22" stroke-linecap="round"/>
+            </svg>
+          </div>
           <h4>Research & Learning</h4>
           <p>Academic detours, experiments, curiosity and useful failures.</p>
         </div>
@@ -368,7 +407,7 @@ function rotateFeature(){
   if(pool.length===0) return;
   featIdx = (featIdx + 1) % pool.length;
   const s = pool[featIdx];
-  document.getElementById('feature-genre').innerText = s.genre.toUpperCase();
+  document.getElementById('feature-genre').innerText = (s.genre||'').toUpperCase();
   featureText.innerText = `"${truncate(s.body,120)}" — ${s.author || 'Anonymous'}`;
 }
 setInterval(rotateFeature, 5000);
@@ -430,18 +469,6 @@ function show(name){
 /* small utilities */
 function truncate(s,n){ if(!s) return ''; return s.length>n ? s.slice(0,n-1)+'…' : s; }
 function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-/* theme toggle (simple) */
-function toggleTheme(){
-  document.body.classList.toggle('dark');
-  if(document.body.classList.contains('dark')){
-    document.documentElement.style.setProperty('--sand','#f3f6f3');
-    document.documentElement.style.setProperty('--mint','#eaf6ef');
-  } else {
-    document.documentElement.style.setProperty('--sand','#FAF7F2');
-    document.documentElement.style.setProperty('--mint','#EEF8F3');
-  }
-}
 
 /* keyboard shortcuts */
 document.addEventListener('keydown', (e)=>{
